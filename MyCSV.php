@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class MyCSV
  */
@@ -59,38 +58,39 @@ class MyCSV {
             return false;
         }
     }
-	
-	public function parseCSV($csv_name, $max_lines = 1000, $separator = ",", $callback = null) {
-		if (($handle = @fopen($csv_name, "r")) !== false) {
-			$row_index = 0;
-			while (($data = fgetcsv($handle, $max_lines, $separator)) !== false) {
-				
-				if (is_callable($callback)) {
-					$data = call_user_func_array($callback, [$data, $row_index]);
-				}
-				
-				if ($row_index === 0)
-					$this->setHeaders($data);
-				else
-					$this->addRow($data);
-				
-				$row_index++;
-			}
-            
-			fclose($handle);
+
+    public function parseCSV($csv_name, $max_lines = 1000, $separator = ",", $callback = null) {
+        if (($handle = @fopen($csv_name, "r")) !== false) {
+            $row_index = 0;
+            while (($data = fgetcsv($handle, $max_lines, $separator)) !== false) {
+
+                if (is_callable($callback)) {
+                    $data = call_user_func_array($callback, [$data, $row_index]);
+                }
+
+                if ($row_index === 0)
+                    $this->setHeaders($data);
+                else
+                    $this->addRow($data);
+
+                $row_index++;
+            }
+
+            fclose($handle);
             return true;
-		}
-        
+        }
+
         return false;
-	}
+    }
 
     public function exportCSV($name = null) {
-        if (empty($this->_headers) && empty($this->$this->_rows)) 
+        if (empty($this->_headers) && empty($this->$this->_rows)) {
             return false;
-		
-		if (!empty($name)) {
-			$this->_name = $name;
-		}
+        }
+
+        if (!empty($name)) {
+            $this->_name = $name;
+        }
 
         try {
             $this->_csv = fopen($this->_name, 'w');
@@ -128,5 +128,4 @@ class MyCSV {
         }
     }
 }
-
 ?>
