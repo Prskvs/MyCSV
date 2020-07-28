@@ -23,7 +23,7 @@ class MyCSV {
             $this->_headers = $columns;
             return true;
         }
-        catch( Exception $e) {
+        catch(Exception $e) {
             var_dump($e->getMessage());
             return false;
         }
@@ -41,7 +41,7 @@ class MyCSV {
             end($this->_rows);
             return key($this->_rows);
         }
-        catch( Exception $e) {
+        catch(Exception $e) {
             var_dump($e->getMessage());
             return false;
         }
@@ -57,6 +57,32 @@ class MyCSV {
             var_dump($e->getMessage());
             return false;
         }
+    }
+
+    public function getData() {
+        try {
+            return array_merge($this->_headers, $this->_rows);
+        }
+        catch(Exception $e) {
+            var_dump($e->getMessage());
+            return false;
+        }
+    }
+
+    public function getHeaders() {
+        return $this->_headers;
+    }
+
+    public function getRows() {
+        return $this->_rows;
+    }
+
+    public function getRow($index) {
+        if (!empty($index) && array_key_exists($index, $this->_rows)) {
+            return $this->_rows[$index];
+        }
+
+        return false;
     }
 
     public function parseCSV($csv_name, $max_lines = 1000, $separator = ",", $callback = null) {
